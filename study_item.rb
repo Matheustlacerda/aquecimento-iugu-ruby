@@ -10,17 +10,17 @@ class StudyItem
     @category = category
 
     @@next_id += 1
-    @@study_items << self
+    @@study_items << self 
   end
 
   def include?(query)
-    title.include?(query) || category.include?(query)
+    title.downcase.include?(query.downcase) || category.downcase.include?(query.downcase)
   end
 
   def to_s
-    "##{id} - #{title} - #{category}"
+    "##{id} - #{title} - #{category}" 
   end
-
+  
   def self.register
     print 'Digite o título do seu item de estudo: '
     title = gets.chomp
@@ -31,23 +31,27 @@ class StudyItem
   end
 
   def self.all
-    @@study_items
+    @@study_items    
   end
 
-  def self.search(term)
-  end
-
-  def self.print
-  end
-
-  def self.delete
-    puts '==== Lista de items ===='
-    # mostrar a lista aqui
-    puts 'Qual o id do Item de estudo você quer apagar?'
-    id = gets.to_i
-    study_item = StudyItem.all.detect do |study_item| 
-      study_item.id == id
+  def self.search_items
+    print 'Digite uma palavra para procurar: '
+    term = gets.chomp
+    found_items = all.filter do |item|
+      item.include?(term)
     end
-    StudyItem.all.delete(study_item)
+    puts found_items
+    puts 'Nenhum item encontrado' if all.empty?  #quando já tem um item não está mostrando essa informação
+  end    
+
+  def self.studied_items
+    puts '----------  Lista de itens  ----------'
+    puts @@study_items
+    puts
+    puts 'Qual o id do item que já foi finalizado o estudo?'
+    id = gets.to_i
+    study_item = all.detect { |item| item.id == id }
+
   end
+ 
 end

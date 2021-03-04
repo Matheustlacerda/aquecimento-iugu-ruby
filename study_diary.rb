@@ -1,9 +1,10 @@
 require_relative 'study_item'
 
-REGISTER = 1
-VIEW     = 2
-SEARCH   = 3
-EXIT     = 4
+INSERT  = 1
+LIST    = 2
+SEARCH  = 3
+STUDIED = 4
+EXIT    = 5
 
 def clear
   system('clear')
@@ -15,7 +16,7 @@ def wait_keypress
   gets
 end
 
-def clear_and_wait_keypress
+def wait_keypress_and_clear
   wait_keypress
   clear
 end
@@ -25,9 +26,10 @@ def welcome
 end
 
 def menu
-  puts "[#{REGISTER}] Cadastrar um item para estudar"
-  puts "[#{VIEW}] Ver todos os itens cadastrados"
+  puts "[#{INSERT}] Cadastrar um item para estudar"
+  puts "[#{LIST}] Ver todos os itens cadastrados"
   puts "[#{SEARCH}] Buscar um item de estudo"
+  puts "[#{STUDIED}] Informar item estudado"
   puts "[#{EXIT}] Sair"
   print 'Escolha uma opção: '
   gets.to_i
@@ -37,9 +39,9 @@ def search_items
   print 'Digite uma palavra para procurar: '
   term = gets.chomp
   found_items = StudyItem.all.filter do |item|
-    item.include?(term)
+    item.include?(term) || item.category.include?(term)
   end
-  print_items(found_items)
+  print found_items
 end
 
 clear
@@ -49,13 +51,15 @@ option = menu
 loop do
   clear
   case option
-  when REGISTER
+  when INSERT
     StudyItem.register
-  when VIEW
+  when LIST
     puts StudyItem.all
     puts 'Nenhum item encontrado' if StudyItem.all.empty?
   when SEARCH
-    search_items
+   StudyItem.search_items   
+  when STUDIED
+    StudyItem.studied_items
   when EXIT
     clear
     puts 'Obrigado por usar o Diário de Estudos'
@@ -63,6 +67,6 @@ loop do
   else
     puts 'Opção inválida'
   end
-  clear_and_wait_keypress
+  wait_keypress_and_clear
   option = menu
 end
