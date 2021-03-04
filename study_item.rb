@@ -41,7 +41,7 @@ class StudyItem
       item.include?(term)
     end
     puts found_items
-    puts 'Nenhum item encontrado' if all.empty?  #quando já tem um item não está mostrando essa informação
+    puts "\nNenhum item encontrado" if found_items.empty?  #quando já tem um item não está mostrando essa informação
   end    
 
   def self.studied_items
@@ -51,7 +51,6 @@ class StudyItem
     puts 'Qual o id do item que já foi finalizado o estudo?'
     id = gets.to_i
     study_item = all.detect { |item| item.id == id }
-
-  end
+    end
  
 end
