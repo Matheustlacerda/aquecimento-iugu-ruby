@@ -4,7 +4,7 @@ class StudyItem
   @@next_id = 1
   @@study_items = []
 
-  def initialize(title:, category:, status: false)
+  def initialize(title:, category:, finished: false)
     @id = @@next_id
     @title = title
     @category = category
