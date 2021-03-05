@@ -35,15 +35,6 @@ def menu
   gets.to_i
 end
 
-def search_items
-  print 'Digite uma palavra para procurar: '
-  term = gets.chomp
-  found_items = StudyItem.all.filter do |item|
-    item.include?(term) || item.category.include?(term)
-  end
-  print found_items
-end
-
 clear
 puts welcome
 option = menu

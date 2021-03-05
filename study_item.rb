@@ -8,7 +8,7 @@ class StudyItem
     @id = @@next_id
     @title = title
     @category = category
-    @status = status
+    @finished = finished
 
     @@next_id += 1
     @@study_items << self
@@ -50,12 +50,12 @@ class StudyItem
   end    
 
   def self.studied_items
-    puts '----------  Lista de itens de estudo  ----------'
+    puts '----------  Lista de estudo  ----------'
     puts @@study_items
     puts
     puts 'Qual o id do item que já foi finalizado o estudo?'
     id = gets.to_i
-    item = all.filter { |item| item.id == id }.first
+    item = all.select { |item| item.id == id }.first
     if item.nil?
       puts "\nId informado inválido"
     else
