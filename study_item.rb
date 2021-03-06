@@ -1,5 +1,5 @@
 class StudyItem
-  attr_reader :id, :title, :category, :status
+  attr_reader :id, :title, :category, :finished
 
   @@next_id = 1
   @@study_items = []
@@ -15,15 +15,16 @@ class StudyItem
   end
 
   def include?(query)
-    title.downcase.include?(query.downcase) || category.downcase.include?(query.downcase)
+    title.downcase.include?(query.downcase) ||
+     category.downcase.include?(query.downcase)
   end
 
-  def finished
-    @status = true
+  def finish
+    @finished = true
   end
 
   def to_s
-    "##{id} - #{title} - #{category} [#{finished ? ' ' : 'X'}]"
+    "##{id} - #{title} - #{category} [#{finished ? 'X' : ' '}]"
   end
   
   def self.register
@@ -59,7 +60,7 @@ class StudyItem
     if item.nil?
       puts "\nId informado inválido"
     else
-      item.finished
+      item.finish
       puts "\nStatus do item atualizado com sucesso"
     end
   end
